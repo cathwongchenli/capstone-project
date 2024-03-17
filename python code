@@ -1,0 +1,60 @@
+import random
+
+#these are example keywords and definitions
+keywords = [
+    [
+        "osmosis",
+        "the net movement of water particles from an area of high water potential to low water potential",
+    ],
+    [
+        "diffusion",
+        "movement of particles or molecules from an area of high concentration to an area of low concentration",
+    ],
+    [
+        "hypertonic",
+        "a solution that has a higher concentration of solutes than another",
+    ],
+    ["hypotonic", "a solution that has a lower concentration of solutes than another"],
+    ["isotonic", "two solutions that have an equal concentration of solutes"],
+]
+
+print("Welcome to the keyword question maker. \nThere are 5 keywords and definitions.")
+question_num = int(input("How many questions do you want?\n"))
+
+score = 0
+wrong_answers = []
+
+
+def ask_question(keyword, definition):
+    print("Keyword:")
+    print(keyword)
+    user_answer = input("What is the definition for this keyword? ").strip().lower()
+
+    if user_answer == definition:
+        print("Correct!")
+        return True
+    else:
+        print("Incorrect.")
+        return False
+
+
+random.shuffle(keywords)
+
+for i in range(question_num):
+    keyword, definition = keywords[i]
+    if ask_question(keyword, definition):
+        score += 10
+    else:
+        wrong_answers.append(keyword)
+
+for keyword in wrong_answers:
+    print(f"\nRevisiting {keyword}...")
+    definition = next(item[1] for item in keywords if item[0] == keyword)
+    if ask_question(keyword, definition):
+        score += 5
+
+total_possible_score = question_num * 10
+percentage_score = (score / total_possible_score) * 100
+
+print("\nYour final score is:", score)
+print(f"Percentage Score: {percentage_score:.2f}%")
